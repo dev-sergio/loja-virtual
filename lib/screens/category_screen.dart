@@ -4,8 +4,10 @@ import 'package:loja_virtual/datas/product_data.dart';
 import 'package:loja_virtual/tiles/product_tile.dart';
 
 class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({Key? key, required this.snapshot}) : super(key: key);
+  CategoryScreen({Key? key, required this.snapshot}) : super(key: key);
   final DocumentSnapshot snapshot;
+
+  final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,17 +54,20 @@ class CategoryScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  ListView.builder(
-                    padding: const EdgeInsets.all(4),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      return ProductTile(
-                        type: "list",
-                        product: ProductData.fromDocument(
-                            snapshot.data!.docs[index]),
-                      );
-                    },
-                  ),
+                  Scrollbar(
+                    controller: _pageController,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(4),
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        return ProductTile(
+                          type: "list",
+                          product: ProductData.fromDocument(
+                              snapshot.data!.docs[index]),
+                        );
+                      },
+                    ),
+                  )
                 ],
               );
             }
