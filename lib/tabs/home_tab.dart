@@ -68,9 +68,10 @@ class HomeTab extends StatelessWidget {
                             return QuiltedGridTile(doc["x"], doc["y"]);
                           }).toList()),
                       childrenDelegate: SliverChildBuilderDelegate(
-                          (context, index) => FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: listaImagens[index]["image"]),
-                        childCount: listaImagens.length
-                      ),
+                          (context, index) => FadeInImage.memoryNetwork(
+                              placeholder: kTransparentImage,
+                              image: listaImagens[index]["image"]),
+                          childCount: listaImagens.length),
                     ),
                   );
                 }
