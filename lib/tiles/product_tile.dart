@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:loja_virtual/datas/product_data.dart';
+import 'package:loja_virtual/screens/product_screen.dart';
 
 class ProductTile extends StatelessWidget {
   const ProductTile({Key? key, required this.type, required this.product})
@@ -78,7 +79,13 @@ class ProductTile extends StatelessWidget {
                 ],
               ),
       ),
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: ((context) => ProductScreen(product: product)),
+          ),
+        );
+      },
     );
   }
 }
