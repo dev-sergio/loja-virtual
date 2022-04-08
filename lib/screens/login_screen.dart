@@ -3,10 +3,18 @@ import 'package:loja_virtual/model/user_model.dart';
 import 'package:loja_virtual/screens/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _globalKey = GlobalKey<FormState>();
+
+  final _emailController = TextEditingController();
+  final _passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +28,7 @@ class LoginScreen extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: ((context) => SignupScreen()),
+                  builder: ((context) => const SignupScreen()),
                 ),
               );
             },
@@ -43,6 +51,7 @@ class LoginScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             children: [
               TextFormField(
+                controller: _emailController,
                 decoration: const InputDecoration(hintText: "E-mail"),
                 keyboardType: TextInputType.emailAddress,
                 validator: (text) {
@@ -57,6 +66,7 @@ class LoginScreen extends StatelessWidget {
                 height: 16,
               ),
               TextFormField(
+                controller: _passController,
                 decoration: const InputDecoration(hintText: "Senha"),
                 obscureText: true,
                 validator: (text) {
@@ -85,7 +95,11 @@ class LoginScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_globalKey.currentState!.validate()) {}
-                    model.signIn();
+                    model.signIn(
+                        email: _emailController.text,
+                        pass: _passController.text,
+                        onSuccess: _onSuccess,
+                        onFail: _onFail);
                   },
                   child: const Text(
                     "Entrar",
@@ -98,5 +112,17 @@ class LoginScreen extends StatelessWidget {
         );
       }),
     );
+  }
+
+  void _onSuccess() {
+    Navigator.of(context).pop();
+  }
+
+  void _onFail() {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Falha entrar!'),
+      backgroundColor: Colors.red,
+      duration: Duration(seconds: 2),
+    ));
   }
 }
